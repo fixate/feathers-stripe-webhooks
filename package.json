@@ -1,25 +1,58 @@
 {
-  "name": "feathers-stripe-webhooks",
-  "version": "0.0.1",
-  "description": "Handle stripe webhooks in a feathersjs service",
-  "main": "index.js",
+  "name": "feathers-sendwithus",
+  "version": "0.0.3",
+  "description": "Feathers service for sending mailers with sendwithus.com.",
+  "main": "./lib",
   "scripts": {
-    "test": "npm test"
+    "compile": "rm -rf lib/ && $(npm bin)/babel -d lib/ src/",
+    "prepublish": "npm run compile",
+    "watch": "$(npm bin)/npm-watch",
+    "lint": "$(npm bin)/eslint src/ test/ || true",
+    "tape": "$(npm bin)/babel-tape-runner test/ | $(npm bin)/tap-spec || true",
+    "test": "npm run lint && npm run tape"
+  },
+  "watch": {
+    "test": {
+      "patterns": [
+        "src/**/*.js",
+        "test/**/*.js"
+      ],
+      "quiet": true
+    }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fixate/feathers-stripe-webhooks.git"
+    "url": "git+https://github.com/fixate/feathers-sendwithus.git"
   },
   "keywords": [
-    "stripe",
-    "feathersjs",
-    "webhooks",
-    "nodejs"
+    "feathers",
+    "sendwithus",
+    "mailer",
+    "email"
   ],
   "author": "Stan Bondi <stan@fixate.it>",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/fixate/feathers-stripe-webhooks/issues"
+    "url": "https://github.com/fixate/feathers-sendwithus/issues"
   },
-  "homepage": "https://github.com/fixate/feathers-stripe-webhooks#readme"
+  "homepage": "https://github.com/feathers-sendwithus#readme",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "moment": "^2.14.1",
+    "restler": "^3.4.0",
+    "sendwithus": "^2.9.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-tape-runner": "^2.0.1",
+    "eslint": "^3.2.0",
+    "npm-watch": "^0.1.5",
+    "sinon": "^1.17.5",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.0",
+    "tape-async": "^2.1.1"
+  }
 }
