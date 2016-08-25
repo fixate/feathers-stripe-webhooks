@@ -30,7 +30,7 @@ module.exports = function(test) {
 
     let result = yield service.create({ type: 'customer.created', data: { object: { a:1 } } });
     t.ok(handlers.customer.created.called, 'Customer.created called');
-    t.deepEquals(handlers.customer.created.getCall(0).args[0], { a: 1 }, 'Passes object into handler')
+    t.deepEquals(handlers.customer.created.getCall(0).args[0].object, { a: 1 }, 'Passes object into handler')
     t.equals(result, 'the result', 'Returns the result of the handler');
 
     handlers.customer.created.reset();

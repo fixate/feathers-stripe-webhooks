@@ -30,8 +30,13 @@ function getHandler(handlers, data) {
 
 export default function createService(stripe, handlers, options) {
   return {
+    setup(app) {
+      this.app = app;
+    },
+
     create(data) {
       const handler = getHandler(handlers, data);
+      const app = this.app;
       if (!handler) {
         debug(`Event type ${data.type} is unhandled. Nothing to do.`)
         return Promise.resolve(undefined);
@@ -51,7 +56,7 @@ export default function createService(stripe, handlers, options) {
           }
 
           const handler = getHandler(handlers, event);
-          return handler(event.data.object, event);
+          return handler({ object: event.data.object, event, app });
         });
     },
   };
