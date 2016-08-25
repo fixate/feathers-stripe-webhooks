@@ -14,10 +14,18 @@ STATUS: Under development
 ```javascript
 const webhooksService = require('feathers-stripe-webhooks');
 
+const handlers = {
+  customer: {
+    created({ object, event, app }) {
+      // Handle webhook
+    },
+  },
+};
+
 module.exports = function() {
   const app = this;
-  const config = app.get('stripe').webhooks;
-  app.use('/stripe/webhooks', webhooksService(config));
+  const options = app.get('stripe').webhooks;
+  app.use('/stripe/webhooks', webhooksService(handlers, options));
 };
 ```
 
@@ -30,7 +38,7 @@ module.exports = function() {
 ## Protecting the endpoint (HTTPS assumed)
 
 Stripe recommends using a secret key in the webhook url so that you can
-be sure that the request is coming from stripe.
+be sure that the request is coming from stripe. e.g https://stripe:longrandomsecret@mydomain.com/stripe/webhooks
 
 This is out of the scope of this library as it can be implemented by
 creating a middleware for your service endpoint.
