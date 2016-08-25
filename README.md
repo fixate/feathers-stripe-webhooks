@@ -1,6 +1,6 @@
 # feathers-stripe-webhooks
 
-[![Build Status](https://travis-ci.org/fixate/feathers-sendwithme.svg?branch=master)](https://travis-ci.org/fixate/feathers-sendwithme)
+[![Build Status](https://travis-ci.org/fixate/feathers-stripe-webhooks.svg?branch=master)](https://travis-ci.org/fixate/feathers-stripe-webhooks)
 
 STATUS: Under development
 
