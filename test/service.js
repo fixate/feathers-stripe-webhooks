@@ -2,30 +2,45 @@ import createService from '../src/service';
 import sinon from 'sinon';
 
 module.exports = function(test) {
-  const api = { send(data, cb) { cb(null, data); } };
+  const handlers = {
+    customer: {
+      created() { return 'the result'; },
+    },
+  };
 
-  sinon.spy(api, 'send');
+  sinon.spy(handlers.customer, 'created');
 
-  const templateMapper = (t) => Promise.resolve(`${t}'`);
-  const service = createService({ api, templateMapper });
+  const stripeMock = {
+    events: {
+      retrieve(id, cb) {
+        cb(null, {
+          id,
+          type: 'customer.created',
+          data: { object: { mock: true } },
+        });
+      },
+    },
+  };
 
-  test("Service", function*(t) {
-    const data = {
-      template: 'theId',
-      recipient: { address: 'recipient@email.com' },
-      sender: { address: 'sender@email.com' },
-    };
+  sinon.spy(stripeMock.events, 'retrieve');
 
-    const result = yield service.create(data);
+  test('Service', function*(t) {
+    let service = createService(stripeMock, handlers, {});
+    t.ok(service.create, 'returns service object with create');
 
-    t.deepEqual(result, {
-      recipient: { address: 'recipient@email.com'  },
-      sender: { address: 'sender@email.com'  },
-      template: 'theId\''
-    });
+    let result = yield service.create({ type: 'customer.created', data: { object: { a:1 } } });
+    t.ok(handlers.customer.created.called, 'Customer.created called');
+    t.deepEquals(handlers.customer.created.getCall(0).args[0], { a: 1 }, 'Passes object into handler')
+    t.equals(result, 'the result', 'Returns the result of the handler');
 
-    t.ok(api.send.called, 'Api Send called');
-    t.deepEquals(api.send.getCall(0).args[0].recipient, data.recipient, 'Calls with data');
-    t.deepEquals(api.send.getCall(0).args[0].template, 'theId\'', 'Calls with mapped template');
+    handlers.customer.created.reset();
+    result = yield service.create({ type: 'customer.updated', data: { object: { a: 1 } }  });
+    t.equals(typeof result, 'undefined', 'Ignores unhandled event types');
+
+    service = createService(stripeMock, handlers, { verifyEvents: true });
+    result = yield service.create({ type: 'customer.created', data: { object: { a: 1 } }  });
+
+    t.ok(handlers.customer.created.called, 'Customer.created called');
+    t.ok(stripeMock.events.retrieve.called, 'Stripe retrieve called');
   });
 };
