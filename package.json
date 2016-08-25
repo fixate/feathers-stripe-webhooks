@@ -1,7 +1,7 @@
 {
-  "name": "feathers-sendwithus",
-  "version": "0.0.3",
-  "description": "Feathers service for sending mailers with sendwithus.com.",
+  "name": "feathers-stripe-webhooks",
+  "version": "0.0.1",
+  "description": "Handle stripe webhooks in a feathersjs service",
   "main": "./lib",
   "scripts": {
     "compile": "rm -rf lib/ && $(npm bin)/babel -d lib/ src/",
@@ -22,25 +22,26 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fixate/feathers-sendwithus.git"
+    "url": "git+https://github.com/fixate/feathers-stripe-webhooks.git"
   },
   "keywords": [
     "feathers",
-    "sendwithus",
-    "mailer",
-    "email"
+    "stripe",
+    "webhooks"
   ],
   "author": "Stan Bondi <stan@fixate.it>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/fixate/feathers-sendwithus/issues"
+    "url": "https://github.com/fixate/feathers-stripe-webhooks/issues"
   },
-  "homepage": "https://github.com/feathers-sendwithus#readme",
+  "homepage": "https://github.com/feathers-stripe-webhooks#readme",
   "dependencies": {
     "debug": "^2.2.0",
-    "moment": "^2.14.1",
-    "restler": "^3.4.0",
-    "sendwithus": "^2.9.2"
+    "feathers-errors": "^2.4.0",
+    "stripe": "^4.9.1"
+  },
+  "peerDependencies": {
+    "feathers": "*"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
@@ -51,6 +52,7 @@
     "eslint": "^3.2.0",
     "npm-watch": "^0.1.5",
     "sinon": "^1.17.5",
+    "stripe-mock-data": "^1.0.3",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.0",
     "tape-async": "^2.1.1"
