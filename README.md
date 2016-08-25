@@ -16,10 +16,16 @@ const webhooksService = require('feathers-stripe-webhooks');
 
 const handlers = {
   customer: {
+    // Handles customer.created event
     created({ object, event, app }) {
       // Handle webhook
     },
   },
+  invoice: {
+    // Handles invoice.created event
+    created() { /*...*/ },
+  },
+  //....
 };
 
 module.exports = function() {
