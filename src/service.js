@@ -3,7 +3,7 @@ import errors from 'feathers-errors';
 
 const debug = Debug('feathers-stripe-webhooks:service');
 
-function fetchEvent(stripe, secret, eventId) {
+function fetchEvent(stripe, eventId) {
   return new Promise((resolve, reject) => {
     stripe.events.retrieve(eventId, (err, event) => {
       if (err) {
@@ -39,7 +39,7 @@ export default function createService(stripe, handlers, options) {
       const app = this.app;
       if (!handler) {
         debug(`Event type ${data.type} is unhandled. Nothing to do.`)
-        return Promise.resolve(undefined);
+        return Promise.resolve({});
       }
 
       const eventData = options.verifyEvents ?
@@ -47,12 +47,12 @@ export default function createService(stripe, handlers, options) {
         Promise.resolve(data);
 
       return eventData
-        .then((event) => {
+        .then(event => {
           // SECURITY: Check that the event types match the given (unverified) data to
           // ensure that the handler we are calling is not supplied by an attacker.
           if (event.type !== data.type) {
             debug('POSSIBLE ATTACK! Handler type from fetched stripe event is different from given event!');
-            throw errors.BadRequest("Invalid event");
+            throw new errors.BadRequest("Invalid event");
           }
 
           const handler = getHandler(handlers, event);
