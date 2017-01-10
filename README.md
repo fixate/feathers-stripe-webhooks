@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/fixate/feathers-stripe-webhooks.svg?branch=master)](https://travis-ci.org/fixate/feathers-stripe-webhooks)
 
-STATUS: Under development
-
 ## Installation
 
 `npm install --save feathers-stripe-webhooks`
@@ -19,7 +17,12 @@ const handlers = {
     // Handles customer.created event
     created({ object, event, app }) {
       // Handle webhook
+      // NOTE: Whatever you return will be returned as a response to stripe.
+      // If you return undefined feathers will 404 and the hook will fail
     },
+    updated({ object, event, app }) {
+      return new Promise(....); // Return promises
+    }
   },
   invoice: {
     // Handles invoice.created event
