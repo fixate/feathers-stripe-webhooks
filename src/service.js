@@ -55,7 +55,6 @@ export default function createService(stripe, handlers, options) {
             throw new errors.BadRequest("Invalid event");
           }
 
-          const handler = getHandler(handlers, event);
           return handler({ object: event.data.object, event, app });
         });
     },
