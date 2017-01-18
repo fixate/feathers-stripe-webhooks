@@ -18,12 +18,12 @@ function fetchEvent(stripe, eventId) {
 function getHandler(handlers, data) {
   const parts = data.type.split('.');
   let node = handlers;
-  parts.forEach((p) => {
-    node = node[p];
+  for (let p in parts) {
+    node = node[parts[p]];
     if (!node) {
-      return null;
+      return undefined;
     }
-  });
+  }
 
   return node;
 }

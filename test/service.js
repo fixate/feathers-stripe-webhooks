@@ -56,5 +56,10 @@ module.exports = function(test) {
 
     t.ok(handlers.customer.created.called, 'Customer.created called');
     t.ok(stripeMock.events.retrieve.called, 'Stripe retrieve called');
+
+    result = yield service
+      .create({ id: 'evt_123', type: 'fake.created', data: { object: { a:1 } } })
+      .catch(e => e);
+    t.deepEquals(result , {}, 'Empty object (feathers returns 201) when called with unhandled event type');
   });
 };
