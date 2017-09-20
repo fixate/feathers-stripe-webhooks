@@ -38,25 +38,24 @@ export default function createService(stripe, handlers, options) {
       const handler = getHandler(handlers, data);
       const app = this.app;
       if (!handler) {
-        debug(`Event type ${data.type} is unhandled. Nothing to do.`)
+        debug(`Event type ${data.type} is unhandled. Nothing to do.`);
         return Promise.resolve({});
       }
 
-      const eventData = options.verifyEvents ?
-        fetchEvent(stripe, data.id) :
-        Promise.resolve(data);
+      const eventData = options.verifyEvents ? fetchEvent(stripe, data.id) : Promise.resolve(data);
 
-      return eventData
-        .then(event => {
-          // SECURITY: Check that the event types match the given (unverified) data to
-          // ensure that the handler we are calling is not supplied by an attacker.
-          if (event.type !== data.type) {
-            debug('POSSIBLE ATTACK! Handler type from fetched stripe event is different from given event!');
-            throw new errors.BadRequest("Invalid event");
-          }
+      return eventData.then(event => {
+        // SECURITY: Check that the event types match the given (unverified) data to
+        // ensure that the handler we are calling is not supplied by an attacker.
+        if (event.type !== data.type) {
+          debug(
+            'POSSIBLE ATTACK! Handler type from fetched stripe event is different from given event!'
+          );
+          throw new errors.BadRequest('Invalid event');
+        }
 
-          return handler({ object: event.data.object, event, app });
-        });
+        return handler({object: event.data.object, event, app});
+      });
     },
   };
 }
