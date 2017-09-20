@@ -58,7 +58,7 @@ export default function createService(stripe, handlers, options) {
           return handler({object: event.data.object, event, app});
         })
         .catch(err => {
-          throw errors.BadRequest(err.message);
+          throw new errors.BadRequest(err.message);
         });
     },
   };
