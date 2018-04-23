@@ -1,6 +1,6 @@
 {
   "name": "feathers-stripe-webhooks",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "Handle stripe webhooks in a feathersjs service",
   "main": "./lib",
   "scripts": {
@@ -19,20 +19,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fixate/feathers-stripe-webhooks.git"
+    "url": "git+https://github.com/LushaTeam/feathers-stripe-webhooks.git"
   },
   "keywords": ["feathers", "stripe", "webhooks"],
   "author": "Stan Bondi <stan@fixate.it>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/fixate/feathers-stripe-webhooks/issues"
+    "url": "https://github.com/LushaTeam/feathers-stripe-webhooks/issues"
   },
-  "homepage": "https://github.com/feathers-stripe-webhooks#readme",
-  "dependencies": {
-    "debug": "^2.2.0",
-    "feathers-errors": "^2.4.0",
-    "stripe": "^4.9.1"
-  },
+  "homepage": "https://github.com/LushaTeam/feathers-stripe-webhooks#readme",
+  "dependencies": {},
   "peerDependencies": {
     "feathers": "*"
   },
