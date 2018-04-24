@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LushaTeam/feathers-stripe-webhooks.git"
+    "url": "git+https://github.com/fixate/feathers-stripe-webhooks.git"
   },
   "keywords": [
     "feathers",
@@ -32,9 +32,9 @@
   "author": "Stan Bondi <stan@fixate.it>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/LushaTeam/feathers-stripe-webhooks/issues"
+    "url": "https://github.com/fixate/feathers-stripe-webhooks/issues"
   },
-  "homepage": "https://github.com/LushaTeam/feathers-stripe-webhooks#readme",
+  "homepage": "https://github.com/fixate/feathers-stripe-webhooks#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
     "debug": "^3.1.0"
