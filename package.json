@@ -13,7 +13,10 @@
   },
   "watch": {
     "test": {
-      "patterns": ["src/**/*.js", "test/**/*.js"],
+      "patterns": [
+        "src/**/*.js",
+        "test/**/*.js"
+      ],
       "quiet": true
     }
   },
@@ -21,14 +24,21 @@
     "type": "git",
     "url": "git+https://github.com/LushaTeam/feathers-stripe-webhooks.git"
   },
-  "keywords": ["feathers", "stripe", "webhooks"],
+  "keywords": [
+    "feathers",
+    "stripe",
+    "webhooks"
+  ],
   "author": "Stan Bondi <stan@fixate.it>",
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/LushaTeam/feathers-stripe-webhooks/issues"
   },
   "homepage": "https://github.com/LushaTeam/feathers-stripe-webhooks#readme",
-  "dependencies": {},
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "debug": "^3.1.0"
+  },
   "peerDependencies": {
     "feathers": "*"
   },
