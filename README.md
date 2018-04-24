@@ -84,38 +84,12 @@ module.exports = {
 ```javascript
 // stripe-webhooks.hooks.js
 module.exports = {
-  before: {
-    all: [],
-    find: [],
-    get: [],
-    create: [],
-    update: [],
-    patch: [],
-    remove: [],
-  },
-
   after: {
-    all: [],
-    find: [],
-    get: [],
     create: [
       iff(hook => hook.params.doSomething,
         doSomething()
       ),
     ],
-    update: [],
-    patch: [],
-    remove: [],
-  },
-
-  error: {
-    all: [],
-    find: [],
-    get: [],
-    create: [],
-    update: [],
-    patch: [],
-    remove: [],
   },
 };
 ```
