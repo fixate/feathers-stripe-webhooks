@@ -10,65 +10,86 @@
 ## Usage
 
 ```javascript
-const webhooksService = require('feathers-stripe-webhooks');
+// default.json
+{
+  "stripe": {
+    "apiKey": "sk_test_MP5bNSfgUyBG2cq3bCntjfLm",
+    "webhooks": {
+      "signature": {
+        "verify": true,
+        "secret": "whsec_sZYN4b3x00PWFvTejfY5xudYx4D8TvW9"
+      }
+    }
+  }
+}
+```
 
-const handlers = {
+```javascript
+// app.js
+const stripe = require('stripe')(config.stripe.apiKey);
+const { stripeSignatureValidationMiddleware } = require('feathers-stripe-webhooks');
+
+if (config.stripe.webhooks.signature.verify)
+  app.configure(stripeSignatureValidationMiddleware(stripe, '/stripe/webhooks', config.stripe.webhooks.signature.secret));
+
+// run other body-parser rules here, i.e. app.use(bodyParser.json())
+```
+
+```javascript
+// stripe-webhooks.service.js
+const { stripeWebhooksService } = require('feathers-stripe-webhooks');
+const handlers = require('./stripe-webhooks.handlers');
+const hooks = require('./stripe-webhooks.hooks');
+
+module.exports = function (app) {
+  app.use('/stripe/webhooks', stripeWebhooksService(handlers));
+
+  const service = app.service('stripe/webhooks');
+
+  service.hooks(hooks);
+};
+```
+
+```javascript
+// stripe-webhooks.handlers.js
+module.exports = {
   customer: {
     // Handles customer.created event
-    created({ object, event, app }) {
+    async created({ object, event, params, app }) {
       // Handle webhook
       // NOTE: Whatever you return will be returned as a response to stripe.
       // If you return undefined feathers will 404 and the hook will fail
+      
+      params.doSomething = true;
+      
+      return {};
     },
-    updated({ object, event, app }) {
-      return new Promise(....); // Return promises
-    }
+    async updated({ object, event, params, app }) {
+      return {};
+    },
+    subscription: {
+      async created({ object, event, params, app }) {
+        return {};
+      },
+    },
   },
   invoice: {
     // Handles invoice.created event
-    created() { /*...*/ },
+    async created() { /*...*/ },
   },
   //....
 };
-
-module.exports = function() {
-  const app = this;
-  const options = app.get('stripe').webhooks;
-  app.use('/stripe/webhooks', webhooksService(handlers, options));
-};
 ```
-
-## Configuration
-
-`secret` - Stripe api key (Required if `verifyEvents` is `true`)
-
-`verifyEvents` -Fetch events from stripe https://stripe.com/docs/webhooks#verifying-events (default: `true`)
-
-## Protecting the endpoint (HTTPS assumed)
-
-Stripe recommends using a secret key in the webhook url so that you can
-be sure that the request is coming from stripe. e.g https://stripe:longrandomsecret@mydomain.com/stripe/webhooks
-
-This is out of the scope of this library as it can be implemented by
-creating a middleware for your service endpoint.
 
 ```javascript
-const basicAuth = require('basic-auth');
-
-function checkBasicAuth(username, password) {
-  return function handler(req, res, next) {
-    const credentials = basicAuth(req);
-    if (!credentials || credentials.name !== username || credentials.pass !== password) {
-      res.statusCode = 401
-      res.setHeader('WWW-Authenticate', 'Basic realm=myRealm');
-      res.end('Access Denied');
-    } else {
-      next();
-    }
-  };
-}
-
-app.use('/stripe/webhook', checkBasicAuth('stripe', yourWebhookSecret), webhooksService(...));
+// stripe-webhooks.hooks.js
+module.exports = {
+  after: {
+    create: [
+      iff(hook => hook.params.doSomething,
+        doSomething()
+      ),
+    ],
+  },
+};
 ```
-
-
