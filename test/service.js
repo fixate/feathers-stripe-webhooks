@@ -19,7 +19,7 @@ module.exports = function(test) {
 
     t.equals(result, 'the result', 'Returns the result of the handler');
 
-    handlers.customer.created.reset();
+    handlers.customer.created.resetHistory();
     result = yield service.create({ type: 'customer.updated', data: { object: { a: 1 } }  });
     t.deepEquals(result, {}, 'Returns success on unhandled event types');
 
