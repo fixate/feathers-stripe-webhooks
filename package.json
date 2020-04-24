@@ -46,17 +46,17 @@
     "feathers": "*"
   },
   "devDependencies": {
-    "@babel/cli": "^7.7.7",
-    "@babel/core": "^7.7.7",
-    "@babel/preset-env": "^7.7.7",
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
     "babel-plugin-add-module-exports": "^1.0.2",
     "babel-tape-runner": "^3.0.0",
     "eslint": "^6.8.0",
     "npm-watch": "^0.6.0",
-    "sinon": "^8.0.4",
+    "sinon": "^9.0.2",
     "stripe-mock-data": "^1.0.3",
     "tap-spec": "^5.0.0",
-    "tape": "^4.12.1",
-    "tape-async": "^2.1.1"
+    "tape": "^4.13.2",
+    "tape-async": "^2.3.0"
   }
 }
