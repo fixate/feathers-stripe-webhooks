@@ -1,6 +1,6 @@
 {
   "name": "feathers-stripe-webhooks",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Handle stripe webhooks in a feathersjs service",
   "main": "./lib",
   "scripts": {
