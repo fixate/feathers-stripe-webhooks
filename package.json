@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/fixate/feathers-stripe-webhooks#readme",
   "engines": {
-    "node": ">= 8"
+    "node": ">= 14"
   },
   "dependencies": {
     "body-parser": "^1.19.1",
